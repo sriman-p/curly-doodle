@@ -1,0 +1,10 @@
+# pnpm workspace definition for the telem monorepo
+packages:
+  - apps/*
+  - packages/*
+  - services/*
+  - infrastructure/*
+  - docs/*
+  - scripts
+
+# Optional shared settings can be added later (e.g., catalog, overrides).
