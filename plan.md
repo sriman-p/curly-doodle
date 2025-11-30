@@ -34,14 +34,14 @@
 
 ## 0. Quick Facts
 
-| Attribute | Details |
-|-----------|---------|
-| **Vision** | Ship a privacy-forward analytics platform bundled with an e-commerce reference store in a single TypeScript monorepo |
-| **Current Status** | Repo skeleton only — no packages/apps created yet |
-| **Delivery Window** | 12 weeks for GA-quality release with phased milestones every 2 weeks |
-| **Operating Model** | PNPM + Turbo monorepo, Fastify services, Next.js apps, SQLite → Postgres scalability path |
-| **Primary Constraint** | Privacy guardrails must exist before any analytics data leaves browsers |
-| **Deployment Model** | Every phase must be deployable independently |
+| Attribute              | Details                                                                                                              |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **Vision**             | Ship a privacy-forward analytics platform bundled with an e-commerce reference store in a single TypeScript monorepo |
+| **Current Status**     | Repo skeleton only — no packages/apps created yet (clean initialization tasks remain)                                |
+| **Delivery Window**    | 12 weeks for GA-quality release with phased milestones every 2 weeks                                                 |
+| **Operating Model**    | PNPM + Turbo monorepo, Fastify services, Next.js 14 App Router, SQLite → Postgres scalability path                   |
+| **Primary Constraint** | Consent Mode v2 + privacy guardrails must exist before any analytics data leaves browsers                            |
+| **Deployment Model**   | Every phase deployable independently; preview environments per PR (edge-friendly)                                    |
 
 ---
 
@@ -56,15 +56,15 @@
 
 ### 1.2 Success Metrics
 
-| Goal | Metric | Target | Measurement Method |
-|------|--------|--------|-------------------|
-| Developer Experience | CI pipeline duration | ≤ 5 minutes | GitHub Actions timing |
-| Analytics Ingestion | Event write success rate | ≥ 99% at 10K events/min | Prometheus metrics |
-| Analytics Ingestion | P99 latency | < 500 ms | Grafana dashboards |
-| Privacy Compliance | Field classification coverage | 100% | CI lint rule |
-| Privacy Compliance | Consent logging | Before any storage | Audit logs |
-| Dashboard Performance | Initial load time | < 5 seconds | Lighthouse/RUM |
-| Dashboard Coverage | KPI rendering | Last 24h data | E2E tests |
+| Goal                  | Metric                        | Target                  | Measurement Method    |
+| --------------------- | ----------------------------- | ----------------------- | --------------------- |
+| Developer Experience  | CI pipeline duration          | ≤ 5 minutes             | GitHub Actions timing |
+| Analytics Ingestion   | Event write success rate      | ≥ 99% at 10K events/min | Prometheus metrics    |
+| Analytics Ingestion   | P99 latency                   | < 500 ms                | Grafana dashboards    |
+| Privacy Compliance    | Field classification coverage | 100%                    | CI lint rule          |
+| Privacy Compliance    | Consent logging               | Before any storage      | Audit logs            |
+| Dashboard Performance | Initial load time             | < 5 seconds             | Lighthouse/RUM        |
+| Dashboard Coverage    | KPI rendering                 | Last 24h data           | E2E tests             |
 
 ### 1.3 Key Results (OKRs)
 
@@ -113,13 +113,13 @@ Objective: Launch privacy-first analytics platform
 
 ### 2.2 Out of Scope ❌
 
-| Item | Reason | Future Phase |
-|------|--------|--------------|
-| Real payment processing | Compliance complexity | Phase 8+ |
-| Non-analytics backends | Scope creep prevention | Phase 7+ |
-| Multi-region HA | Infrastructure maturity | Phase 9+ |
-| ML/Experimentation | Core platform first | Phase 10+ |
-| Real-time streaming | Batch-first approach | Phase 8+ |
+| Item                    | Reason                  | Future Phase |
+| ----------------------- | ----------------------- | ------------ |
+| Real payment processing | Compliance complexity   | Phase 8+     |
+| Non-analytics backends  | Scope creep prevention  | Phase 7+     |
+| Multi-region HA         | Infrastructure maturity | Phase 9+     |
+| ML/Experimentation      | Core platform first     | Phase 10+    |
+| Real-time streaming     | Batch-first approach    | Phase 8+     |
 
 ---
 
@@ -254,7 +254,7 @@ telem/
 ├─────────────────────────────────────────────────────────────────────────┤
 │  DATA                                                                    │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐       │
-│  │  SQLite     │ │  PostgreSQL │ │  Drizzle/   │ │  Redis      │       │
+│  │  PostgreSQL │ │  PostgreSQL │ │             │ │  Redis      │       │
 │  │  (Dev)      │ │  (Prod)     │ │  Prisma ORM │ │  (Cache)    │       │
 │  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘       │
 ├─────────────────────────────────────────────────────────────────────────┤
@@ -1115,9 +1115,10 @@ type TrafficSource {
 #### Exit Criteria
 
 | Criterion | Validation Method |
-|-----------|-------------------|
+| --------- | ----------------- |
+
 | `pnpm install` completes without
- errors | CI check |
+errors | CI check |
 | Shared scripts documented | README review |
 | All placeholder packages lint-clean | `turbo run lint` |
 | CI pipeline runs in < 3 minutes | GitHub Actions timing |
@@ -1177,12 +1178,12 @@ Phase 1 Tasks (Est. 40 hours)
 
 #### Exit Criteria
 
-| Criterion | Validation Method |
-|-----------|-------------------|
-| Guest checkout flow works | Playwright E2E test |
-| Cart functionality complete | Unit tests passing |
+| Criterion                        | Validation Method   |
+| -------------------------------- | ------------------- |
+| Guest checkout flow works        | Playwright E2E test |
+| Cart functionality complete      | Unit tests passing  |
 | Analytics events emit to console | Manual verification |
-| CI preview deploy working | PR deployment |
+| CI preview deploy working        | PR deployment       |
 
 #### Tasks Breakdown
 
@@ -1238,12 +1239,12 @@ Phase 2 Tasks (Est. 60 hours)
 
 #### Exit Criteria
 
-| Criterion | Validation Method |
-|-----------|-------------------|
-| Store sends events to `/events` | Integration test |
-| Events persist to SQLite | Database query |
-| Contract tests passing | CI pipeline |
-| Pino logs visible locally | Manual verification |
+| Criterion                       | Validation Method   |
+| ------------------------------- | ------------------- |
+| Store sends events to `/events` | Integration test    |
+| Events persist to SQLite        | Database query      |
+| Contract tests passing          | CI pipeline         |
+| Pino logs visible locally       | Manual verification |
 
 #### Key Diagrams
 
@@ -1280,12 +1281,12 @@ SDK → Collector Flow
 
 #### Exit Criteria
 
-| Criterion | Validation Method |
-|-----------|-------------------|
-| Every schema field has PII tag | CI lint rule |
-| Consent log stored for opt-in/out | Database audit |
-| Unclassified fields blocked | CI failure test |
-| Privacy docs complete | Documentation review |
+| Criterion                         | Validation Method    |
+| --------------------------------- | -------------------- |
+| Every schema field has PII tag    | CI lint rule         |
+| Consent log stored for opt-in/out | Database audit       |
+| Unclassified fields blocked       | CI failure test      |
+| Privacy docs complete             | Documentation review |
 
 #### Consent Flow Diagram
 
@@ -1352,12 +1353,12 @@ SDK → Collector Flow
 
 #### Exit Criteria
 
-| Criterion | Validation Method |
-|-----------|-------------------|
-| Queries complete in < 5s (24h window) | Performance test |
-| Dashboard E2E test (login → chart) | Playwright test |
-| API auth in place | Security test |
-| Cache hit ratio > 80% | Metrics |
+| Criterion                             | Validation Method |
+| ------------------------------------- | ----------------- |
+| Queries complete in < 5s (24h window) | Performance test  |
+| Dashboard E2E test (login → chart)    | Playwright test   |
+| API auth in place                     | Security test     |
+| Cache hit ratio > 80%                 | Metrics           |
 
 #### Dashboard Layout
 
@@ -1420,12 +1421,12 @@ SDK → Collector Flow
 
 #### Exit Criteria
 
-| Criterion | Validation Method |
-|-----------|-------------------|
-| Soak test @ 10K events/min passes | K6 load test |
-| Backup/restore documented | Runbook review |
-| On-call SOP drafted | Documentation review |
-| Release checklist signed | Stakeholder sign-off |
+| Criterion                         | Validation Method    |
+| --------------------------------- | -------------------- |
+| Soak test @ 10K events/min passes | K6 load test         |
+| Backup/restore documented         | Runbook review       |
+| On-call SOP drafted               | Documentation review |
+| Release checklist signed          | Stakeholder sign-off |
 
 #### Load Test Results Template
 
@@ -1638,15 +1639,15 @@ Float Path:    P1 → P2 (can run parallel with P3)
 
 ### 10.3 Workstream Ownership
 
-| Workstream | Lead | Supporting | Key Responsibilities |
-|------------|------|------------|---------------------|
-| Tooling & Platform | Platform Team | All | PNPM/Turbo configs, CI, linting, Docker |
-| Store Application | Frontend Team | Platform | Next.js app, UI components, analytics hooks |
-| Analytics SDK | Backend Team | Privacy | Browser/server clients, batching, consent |
-| Collector & Processor | Backend Team | Platform | Fastify ingestion, workers, storage |
-| Privacy & Compliance | Privacy Team | All | Consent manager, tagging, audits, legal |
-| Query & Dashboard | Frontend + Backend | Platform | GraphQL/REST API, dashboard charts |
-| Documentation | All Teams | Project Lead | Technical docs, runbooks, API docs |
+| Workstream            | Lead               | Supporting   | Key Responsibilities                        |
+| --------------------- | ------------------ | ------------ | ------------------------------------------- |
+| Tooling & Platform    | Platform Team      | All          | PNPM/Turbo configs, CI, linting, Docker     |
+| Store Application     | Frontend Team      | Platform     | Next.js app, UI components, analytics hooks |
+| Analytics SDK         | Backend Team       | Privacy      | Browser/server clients, batching, consent   |
+| Collector & Processor | Backend Team       | Platform     | Fastify ingestion, workers, storage         |
+| Privacy & Compliance  | Privacy Team       | All          | Consent manager, tagging, audits, legal     |
+| Query & Dashboard     | Frontend + Backend | Platform     | GraphQL/REST API, dashboard charts          |
+| Documentation         | All Teams          | Project Lead | Technical docs, runbooks, API docs          |
 
 ---
 
@@ -1654,13 +1655,13 @@ Float Path:    P1 → P2 (can run parallel with P3)
 
 ### 11.1 Runtime Requirements
 
-| Component | Version | Notes |
-|-----------|---------|-------|
-| Node.js | 20+ LTS | Required for all services |
-| PNPM | 9.x | Package manager |
-| Bun | 1.x | Optional, for faster tooling |
-| Docker | 24+ | Local development |
-| Docker Compose | 2.x | Multi-container setup |
+| Component      | Version | Notes                        |
+| -------------- | ------- | ---------------------------- |
+| Node.js        | 20+ LTS | Required for all services    |
+| PNPM           | 9.x     | Package manager              |
+| Bun            | 1.x     | Optional, for faster tooling |
+| Docker         | 24+     | Local development            |
+| Docker Compose | 2.x     | Multi-container setup        |
 
 ### 11.2 Core Libraries
 
@@ -1713,6 +1714,7 @@ Float Path:    P1 → P2 (can run parallel with P3)
 │                                                                              │
 │  EXTERNAL SERVICES                                                           │
 │  ├─ GeoIP database (MaxMind GeoLite2)                                       │
+│  ├─ Consent management (IAB TCF v2.2 CMP or custom)                         │
 │  ├─ Feature flags (optional: LaunchDarkly/Flagsmith)                        │
 │  └─ Error tracking (optional: Sentry)                                       │
 │                                                                              │
@@ -1767,6 +1769,15 @@ Float Path:    P1 → P2 (can run parallel with P3)
 │ • XSS prevention via output encoding                                        │
 │ • Request size limits enforced                                              │
 └─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PRIVACY & COMPLIANCE                                                         │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ • Consent Mode v2 gating for EU/EEA traffic before analytics                 │
+│ • Respect Global Privacy Control (GPC) and Do Not Track signals              │
+│ • Align with Chrome Privacy Sandbox (3PC phase-out; first-party tokens)      │
+│ • Data residency controls by environment                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### 12.2 Security Checklist
@@ -1788,6 +1799,12 @@ Float Path:    P1 → P2 (can run parallel with P3)
   - [ ] Data masking in logs
   - [ ] Secure key management
   - [ ] Regular security audits
+
+- [ ] **Privacy & Consent**
+  - [ ] Consent Mode v2 implemented and tested
+  - [ ] GPC/DNT signals honored across SDK and services
+  - [ ] Data residency tagging enforced per environment
+  - [ ] DPIA completed pre-GA
 
 - [ ] **Infrastructure**
   - [ ] Secrets in environment variables
@@ -1927,16 +1944,16 @@ Test Distribution:
 
 ### 14.2 Test Types & Tools
 
-| Test Type | Tool | Location | Run Frequency |
-|-----------|------|----------|---------------|
-| Unit | Vitest | `**/*.test.ts` | On commit |
-| Component | React Testing Library | `**/*.test.tsx` | On commit |
-| Integration | MSW + Vitest | `tests/integration/` | On PR |
-| E2E | Playwright | `tests/e2e/` | On PR + nightly |
-| Contract | Zod + Vitest | `packages/data-contracts/` | On commit |
-| Performance | K6 | `tests/load/` | Weekly + pre-release |
-| Accessibility | axe-playwright | With E2E tests | On PR |
-| Security | npm audit + Snyk | CI pipeline | Daily |
+| Test Type     | Tool                  | Location                   | Run Frequency        |
+| ------------- | --------------------- | -------------------------- | -------------------- |
+| Unit          | Vitest                | `**/*.test.ts`             | On commit            |
+| Component     | React Testing Library | `**/*.test.tsx`            | On commit            |
+| Integration   | MSW + Vitest          | `tests/integration/`       | On PR                |
+| E2E           | Playwright            | `tests/e2e/`               | On PR + nightly      |
+| Contract      | Zod + Vitest          | `packages/data-contracts/` | On commit            |
+| Performance   | K6                    | `tests/load/`              | Weekly + pre-release |
+| Accessibility | axe-playwright        | With E2E tests             | On PR                |
+| Security      | npm audit + Snyk      | CI pipeline                | Daily                |
 
 ### 14.3 Test Coverage Requirements
 
@@ -2039,6 +2056,8 @@ ANALYTICS PIPELINE
                            └─────────────────┘
 ```
 
+> Observability notes: prefer OTLP exporters for traces/metrics/logs routed through an OpenTelemetry Collector before fan-out to Loki/Prometheus/Jaeger; keep sampling rules in code under version control.
+
 ### 15.2 Key Metrics
 
 ```
@@ -2052,6 +2071,7 @@ ANALYTICS PIPELINE
 │  ├─ unique_visitors_daily   - Daily unique visitors                         │
 │  ├─ sessions_total          - Total sessions                                │
 │  └─ conversion_rate         - Checkout completions / visits                 │
+│  ├─ consent_accept_rate     - % users granting analytics consent            │
 │                                                                              │
 │  APPLICATION METRICS                                                         │
 │  ├─ http_request_duration_seconds   - Request latency histogram             │
@@ -2059,6 +2079,7 @@ ANALYTICS PIPELINE
 │  ├─ nodejs_heap_size_bytes          - Memory usage                          │
 │  ├─ nodejs_eventloop_lag_seconds    - Event loop latency                    │
 │  └─ active_connections              - Database connection pool              │
+│  ├─ events_dropped_privacy          - Events blocked by consent/PII checks  │
 │                                                                              │
 │  INFRASTRUCTURE METRICS                                                      │
 │  ├─ cpu_usage_percent       - CPU utilization                               │
@@ -2474,25 +2495,29 @@ PRIORITY: CRITICAL (Must complete)
 □ [P0] Initialize PNPM workspace + Turbo pipeline
        Owner: Platform Team
        Due: Day 2
-       
+
 □ [P0] Set up GitHub repository with branch protection
        Owner: Platform Team
        Due: Day 1
-       
+
 □ [P0] Create base ESLint/TypeScript configurations
        Owner: Platform Team
        Due: Day 3
+
+□ [P0] Wire baseline consent gating (banner + SDK stub)
+       Owner: Frontend + Privacy
+       Due: Day 5
 
 PRIORITY: HIGH (Should complete)
 ────────────────────────────────
 □ [P1] Scaffold placeholder packages structure
        Owner: All Teams
        Due: Day 4
-       
+
 □ [P1] Set up GitHub Actions CI workflow
        Owner: Platform Team
        Due: Day 4
-       
+
 □ [P1] Document repo setup in README
        Owner: Platform Team
        Due: Day 5
@@ -2502,7 +2527,7 @@ PRIORITY: MEDIUM (Nice to have)
 □ [P2] Configure Husky pre-commit hooks
        Owner: Platform Team
        Due: Day 5
-       
+
 □ [P2] Set up PR template and issue templates
        Owner: Project Lead
        Due: Day 5
@@ -2586,16 +2611,16 @@ $ docker compose down             # Stop stack
 
 ### A. Glossary
 
-| Term | Definition |
-|------|------------|
-| **Analytics SDK** | Client library for tracking events in browser/server |
-| **Collector** | Service that receives and validates incoming events |
-| **Consent** | User permission for data collection |
-| **Event** | A tracked user action (page view, click, etc.) |
-| **PII** | Personally Identifiable Information |
-| **Processor** | Background service for data enrichment and aggregation |
-| **Session** | A group of events from a single user visit |
-| **Telementary** | The analytics dashboard application |
+| Term              | Definition                                             |
+| ----------------- | ------------------------------------------------------ |
+| **Analytics SDK** | Client library for tracking events in browser/server   |
+| **Collector**     | Service that receives and validates incoming events    |
+| **Consent**       | User permission for data collection                    |
+| **Event**         | A tracked user action (page view, click, etc.)         |
+| **PII**           | Personally Identifiable Information                    |
+| **Processor**     | Background service for data enrichment and aggregation |
+| **Session**       | A group of events from a single user visit             |
+| **Telementary**   | The analytics dashboard application                    |
 
 ### B. Architecture Decision Records (ADRs)
 
@@ -2676,26 +2701,29 @@ Consequences:
 
 ### C. Reference Links
 
-| Resource | URL |
-|----------|-----|
-| PNPM Documentation | https://pnpm.io/motivation |
-| Turborepo Guide | https://turbo.build/repo/docs |
-| Next.js 14 Docs | https://nextjs.org/docs |
-| Fastify Documentation | https://fastify.dev/docs/latest/ |
-| Drizzle ORM | https://orm.drizzle.team/docs/overview |
-| Zod Validation | https://zod.dev/ |
-| Vitest Testing | https://vitest.dev/guide/ |
-| Playwright E2E | https://playwright.dev/docs/intro |
+| Resource                 | URL                                                                |
+| ------------------------ | ------------------------------------------------------------------ |
+| PNPM Documentation       | https://pnpm.io/motivation                                         |
+| Turborepo Guide          | https://turbo.build/repo/docs                                      |
+| Next.js 14 Docs          | https://nextjs.org/docs                                            |
+| Next.js 14 Release Notes | https://nextjs.org/blog/next-14                                    |
+| Fastify Documentation    | https://fastify.dev/docs/latest/                                   |
+| Drizzle ORM              | https://orm.drizzle.team/docs/overview                             |
+| Zod Validation           | https://zod.dev/                                                   |
+| Vitest Testing           | https://vitest.dev/guide/                                          |
+| Playwright E2E           | https://playwright.dev/docs/intro                                  |
+| Privacy Sandbox Overview | https://developers.google.com/privacy-sandbox                      |
+| Google Consent Mode v2   | https://developers.google.com/tag-platform/security/guides/consent |
 
 ### D. Document History
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | 2025-01-XX | Project Lead | Initial plan |
-| 1.1 | 2025-01-XX | Project Lead | Added diagrams, RACI, security sections |
+| Version | Date       | Author       | Changes                                 |
+| ------- | ---------- | ------------ | --------------------------------------- |
+| 1.0     | 2025-01-XX | Project Lead | Initial plan                            |
+| 1.1     | 2025-01-XX | Project Lead | Added diagrams, RACI, security sections |
 
 ---
 
 **End of Document**
 
-*This plan is a living document and will be updated as the project progresses.*
+_This plan is a living document and will be updated as the project progresses._
